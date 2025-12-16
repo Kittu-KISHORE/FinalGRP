@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gate Approval System</title>
+  <link rel="stylesheet" href="../CSS/test.css" />
+  <link rel="stylesheet" href="../CSS/testgates.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <span class="menu-icon">&#x22EE;</span>
+  <div class="nav-links">
+    <button data-page="home">Home</button>
+    <button data-page="register">Register</button>
+    <button data-page="g1">G1</button>
+    <button data-page="g2">G2</button>
+    <button data-page="g3">G3</button>
+    <button data-page="g4">G4</button>
+    <button data-page="g5">G5</button>
+    <button data-page="history">History</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="page">
+  <h2>Home</h2>
+  <p>Welcome to Gate Approval System</p>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page hidden">
+  <h2>Register</h2>
+  <form id="registerForm">
+     <div class="rform-grid" >
+            <table id="register_table">
+                <tr>
+                     <div>
+                        <td class="rdata"><label for="r_partno">Part No:</label></td>
+                        <td><select id="partno" style="padding: 8px; border-radius: 5px; width: 80%; ">
+                        <option value="default">Select Part No</option>
+                        <option value="P001">P001</option>
+                        <option value="P002">P002</option>
+                        <option value="P003">P003</option>
+                        <option value="P004">P004</option>
+                        </select></td>
+                     </div>
+                </tr>
+                <tr>
+                     <div>
+                    <td class="rdata"><label for="r_comments">Comments:</label></td>
+                    <td class="rdata"><input type="text" id="r_comments"/></td>
+                     </div>
+                </tr>
+                <tr>
+                     <div>
+                    <td class="rdata"><label for="rtarget_date">Finished Date:</label></td>
+                    <td class="rdata"><input type="date" id="rtarget_date"/></td>
+                     </div>
+                </tr>
+                <tr>
+                    <td class="rdata"><button type="submit" class="submit-btn">Submit</button></td>
+                </tr>
+            </table>  
+        </div>
+  </form>
+</section>
+
+
+<!-- GATES -->
+<section id="g1" class="page hidden"></section>
+<section id="g2" class="page hidden"></section>
+<section id="g3" class="page hidden"></section>
+<section id="g4" class="page hidden"></section>
+<section id="g5" class="page hidden"></section>
+
+<!-- HISTORY -->
+<section id="history" class="page hidden">
+  <h2>History</h2>
+  <div id="historyData"></div>
+</section>
+
+<!-- Approval button -->
+<div id="approvalModal" class="modal hidden">
+  <div class="modal-content" id="modalBody"></div>
+</div>
+
+<!-- <script src="../JS/test.js"></script> -->
+ <script src="../JS/test1.js"></script> 
+</body>
+</html>

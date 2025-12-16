@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GRP</title>
+    <link rel="stylesheet" href="../CSS/index.css" />
+    <link rel="stylesheet" href="../CSS/gates.css">
+</head>
+<body>
+    
+    <!-- NAVBAR -->
+<nav class="navbar">
+    <!-- Menu icon for mobile -->
+    <span class="menu-icon" onclick="toggleMenu()">&#x22EE;</span>
+    <!-- Side menu container -->
+    <div class="nav-links">
+        <button data-page="home">Home</button>
+        <button data-page="register">Register</button>
+        <button data-page="g1">G1</button>
+        <button data-page="g2">G2</button>
+        <button data-page="g3">G3</button>
+        <button data-page="g4">G4</button>
+        <button data-page="g5">G5</button>
+        <button data-page="remarks">History</button>
+    </div>
+</nav>
+
+    <!-- HOME PAGE -->
+    <section id="home" class="page">
+        <h1>Welcome to the Home Page</h1>
+         <!-- <div>
+            <table class="popup_table">
+                <thead>
+                    <tr>
+                        <th class="popup_head">Temp</th>
+                        <th class="popup_head">Aproval</th>
+                        <th class="popup_head">Pending Aproval</th>
+                        <th class="popup_head">Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="popup_data">temp</td>
+                        <td class="popup_data">temp</td>
+                        <td class="popup_data">temp</td>
+                        <td class="popup_data">temp</td>
+                    </tr>
+                </tbody>
+             
+            </table>
+        </div> -->
+    </section>
+
+    <!-- REGISTER PAGE -->
+    <section id="register" class="page hidden">
+        <h2>Register</h2>
+        <form action="" method="get">
+            <div class="rform-grid">
+            <table style="border: 1px solid black;">
+                <tr>
+                     <div>
+                    <td class="rdata"><label for="r_partno">Part No:</label></td>
+                        <td><select id="partno" style="padding: 8px; border-radius: 5px; width: 80%; ">
+                        <option value="default">Select Part No</option>
+                        <option value="P001">P001</option>
+                        <option value="P002">P002</option>
+                        <option value="P003">P003</option>
+                        <option value="P004">P004</option>
+                        </select></td>
+                     </div>
+                </tr>
+                <tr>
+                     <div>
+                    <td class="rdata"><label for="r_comments">Comments:</label></td>
+                    <td class="rdata"><input type="text" id="r_comments"/></td>
+                     </div>
+                </tr>
+                <tr>
+                     <div>
+                    <td class="rdata"><label for="rtarget_date">Finished Date:</label></td>
+                    <td class="rdata"><input type="date" id="rtarget_date"/></td>
+                     </div>
+                </tr>
+                <tr>
+                    <td class="rdata"><button type="submit" class="submit-btn">Submit</button></td>
+                </tr>
+            </table>  
+        </div>
+        
+        </form>  
+    </section>
+
+<!--------------------- POPUP WINDOWS FOR G1–G5 ---------------------------->
+      
+<section id="g1-me" class="page hidden">
+    <h2>G1 - ME Page</h2>
+         <form id="g1MeForm">
+        <div class="g1-form-grid">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td>
+                    <input type="text" id="me_partno" class="g1-input" readonly>
+                </td>
+            </tr>
+
+                <tr>
+                    <td class="g1-label"><label for="me_comments">Comments:</label></td>
+                    <td><input type="text" id="me_comments" class="g1-input"></td>
+                </tr>
+
+                <tr>
+                    <td class="g1-label"><label for="me_fdate">Finished Date:</label></td>
+                    <td><input type="date" id="me_fdate" class="g1-input"></td>
+                </tr>
+
+                <tr>
+                    <td class="g1-label"><label for="me_document">Upload Document:</label></td>
+                    <td><input type="file" id="me_document" class="g1-input"></td>
+                </tr>
+
+                <tr>
+                    <td class="g1-label"><label for="me_uploadedby">Uploaded By:</label></td>
+                    <td><input type="text" id="me_uploadedby" class="g1-input" readonly></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" class="g1-submit-td">
+                        <button type="submit" class="submit-btn">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</section>
+
+<section id="g1-me" >
+    <div id="g1-grid-container"></div>
+
+</section>
+
+<section id="g1-mem" class="page hidden">
+    <h2 class="g1-title">G1 - MEM Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <!-- PART NUMBER -->
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td> <input type="text" id="mem_partno" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME COMMENT (readonly) -->
+            <tr>
+                <td class="g1-label">ME Comment:</td>
+                <td><input type="text" id="me_comment" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME FINISHED DATE (readonly) -->
+            <tr>
+                <td class="g1-label"><label for="mem_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="mem_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME DOCUMENT DOWNLOAD -->
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="mem_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <!-- COMMENTS -->
+            <tr>
+                <td class="g1-label"><label for="mem_comments">Comments:</label></td>
+                <td><input type="text" id="mem_comments" class="g1-input" /></td>
+            </tr>
+            <!-- MEM DOCUMENT UPLOAD -->
+            <tr>
+                <td class="g1-label"><label for="mem_document">Upload Document:</label></td>
+                <td><input type="file" id="mem_document" class="g1-input"></td>
+            </tr>
+            <!-- REVIEWED DATE -->
+            <tr>
+                <td class="g1-label"><label for="mem_rdate">Reviewed Date:</label></td>
+                <td><input type="date" id="mem_rdate" class="g1-input" /></td>
+            </tr>
+            <!-- SUBMIT BUTTON -->
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g1-cto" class="page hidden">
+    <h2>G1 - CTO Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td>
+                    <input type="text" id="cto_partno" class="g1-input" readonly>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="g1-label">ME Comments:</td>
+                <td><input type="text" id="cto_me_comments" class="g1-input" readonly></td>
+            </tr>
+
+            <tr>
+                <td class="g1-label"><label for="cto_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="cto_me_fdate" class="g1-input" readonly></td>
+            </tr>
+
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td>
+                    <a id="cto_me_documentLink" class="download-link" href="#" download>Download ME Document</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="g1-label">MEM Comments:</td>
+                <td><input type="text" id="cto_mem_comments" class="g1-input" readonly></td>
+            </tr>
+
+            <tr>
+                <td class="g1-label">MEM Document:</td>
+                <td>
+                    <a id="cto_mem_documentLink" class="download-link" href="#" download>Download MEM Document</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="g1-label"><label for="cto_mem_rdate">MEM Reviewed Date:</label></td>
+                <td><input type="date" id="cto_mem_rdate" class="g1-input" readonly></td>
+            </tr>
+
+            <tr>
+                <td class="g1-label"><label for="cto_comments">CTO Comments:</label></td>
+                <td><input type="text" id="cto_comments" class="g1-input"></td>
+            </tr>
+
+            <tr>
+                <td class="g1-label"><label for="cto_document">Upload Document:</label></td>
+                <td><input type="file" id="cto_document" class="g1-input"></td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="text-align:center;">
+                    <button type="submit" class="submit-btn">Submit</button>
+                </td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+
+
+<!-- ==================== GATE 2 ==================== -->
+<section id="g2-me" class="page hidden">
+    <h2>G2 - ME Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g2me_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2me_comments">Comments:</label></td>
+                <td><input type="text" id="g2me_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2me_fdate">Finished Date:</label></td>
+                <td><input type="date" id="g2me_fdate" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2me_document">Upload Document:</label></td>
+                <td><input type="file" id="g2me_document" class="g1-input"></td>
+            </tr>
+             <tr>
+                <td class="g1-label"><label for="me_uploadedby">Uploaded By:</label></td>
+                <td><input type="text" id="me_uploadedby" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+
+<section id="g2-mem" class="page hidden">
+    <h2>G2 - MEM Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g2mem_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comment:</td>
+                <td><input type="text" id="g2mem_me_comment" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME FINISHED DATE (readonly) -->
+            <tr>
+                <td class="g1-label"><label for="g2mem_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g2mem_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g2mem_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2mem_comments">Comments:</label></td>
+                <td><input type="text" id="g2mem_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2mem_document">Upload Document:</label></td>
+                <td><input type="file" id="g2mem_document" class="g1-input"></td>
+            </tr>
+            <!-- REVIEWED DATE -->
+            <tr>
+                <td class="g1-label"><label for="g2mem_rdate">Reviewed Date:</label></td>
+                <td><input type="date" id="g2mem_rdate" class="g1-input" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g2-cto" class="page hidden">
+    <h2>G2 - CTO Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g2cto_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comments:</td>
+                <td><input type="text" id="g2cto_me_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2cto_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g2cto_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g2cto_me_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Comments:</td>
+                <td><input type="text" id="g2cto_mem_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Document:</td>
+                <td><a id="g2cto_mem_documentLink" class="download-link" href="#" download>Download MEM Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2cto_mem_rdate">MEM Reviewed Date:</label></td>
+                <td><input type="date" id="g2cto_mem_rdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2cto_comments">CTO Comments:</label></td>
+                <td><input type="text" id="g2cto_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g2cto_document">Upload Document:</label></td>
+                <td><input type="file" id="g2cto_document" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<!-- ==================== GATE 3 ==================== -->
+<section id="g3-me" class="page hidden">
+    <h2>G3 - ME Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g3me_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3me_comments">Comments:</label></td>
+                <td><input type="text" id="g3me_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3me_fdate">Finished Date:</label></td>
+                <td><input type="date" id="g3me_fdate" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3me_document">Upload Document:</label></td>
+                <td><input type="file" id="g3me_document" class="g1-input"></td>
+            </tr>
+             <tr>
+                <td class="g1-label"><label for="g3me_uploadedby">Uploaded By:</label></td>
+                <td><input type="text" id="g3me_uploadedby" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g3-mem" class="page hidden">
+    <h2>G3 - MEM Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g3mem_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comment:</td>
+                <td><input type="text" id="g3mem_me_comment" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME FINISHED DATE (readonly) -->
+            <tr>
+                <td class="g1-label"><label for="g3mem_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g3mem_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g3mem_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3mem_comments">Comments:</label></td>
+                <td><input type="text" id="g3mem_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3mem_document">Upload Document:</label></td>
+                <td><input type="file" id="g3mem_document" class="g1-input"></td>
+            </tr>
+            <!-- REVIEWED DATE -->
+            <tr>
+                <td class="g1-label"><label for="g3mem_rdate">Reviewed Date:</label></td>
+                <td><input type="date" id="g3mem_rdate" class="g1-input" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g3-cto" class="page hidden">
+    <h2>G3 - CTO Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g3cto_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comments:</td>
+                <td><input type="text" id="g3cto_me_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3cto_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g3cto_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g3cto_me_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Comments:</td>
+                <td><input type="text" id="g3cto_mem_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Document:</td>
+                <td><a id="g3cto_mem_documentLink" class="download-link" href="#" download>Download MEM Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3cto_mem_rdate">MEM Reviewed Date:</label></td>
+                <td><input type="date" id="g3cto_mem_rdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3cto_comments">CTO Comments:</label></td>
+                <td><input type="text" id="g3cto_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g3cto_document">Upload Document:</label></td>
+                <td><input type="file" id="g3cto_document" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<!-- ==================== GATE 4 ==================== -->
+<section id="g4-me" class="page hidden">
+    <h2>G4 - ME Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g4me_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4me_comments">Comments:</label></td>
+                <td><input type="text" id="g4me_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4me_fdate">Finished Date:</label></td>
+                <td><input type="date" id="g4me_fdate" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4me_document">Upload Document:</label></td>
+                <td><input type="file" id="g4me_document" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g4-mem" class="page hidden">
+    <h2>G4 - MEM Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g4mem_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comment:</td>
+                <td><input type="text" id="g4mem_me_comment" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME FINISHED DATE (readonly) -->
+            <tr>
+                <td class="g1-label"><label for="g4mem_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g4mem_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td><a id="g4mem_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4mem_comments">Comments:</label></td>
+                <td><input type="text" id="g4mem_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4mem_document">Upload Document:</label></td>
+                <td><input type="file" id="g4mem_document" class="g1-input"></td>
+            </tr>
+            <!-- REVIEWED DATE -->
+            <tr>
+                <td class="g1-label"><label for="g4mem_rdate">Reviewed Date:</label></td>
+                <td><input type="date" id="g4mem_rdate" class="g1-input" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g4-cto" class="page hidden">
+    <h2>G4 - CTO Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g4cto_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comments:</td>
+                <td><input type="text" id="g4cto_me_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4cto_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g4cto_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g4cto_me_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Comments:</td>
+                <td><input type="text" id="g4cto_mem_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Document:</td>
+                <td><a id="g4cto_mem_documentLink" class="download-link" href="#" download>Download MEM Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4cto_mem_rdate">MEM Reviewed Date:</label></td>
+                <td><input type="date" id="g4cto_mem_rdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4cto_comments">CTO Comments:</label></td>
+                <td><input type="text" id="g4cto_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g4cto_document">Upload Document:</label></td>
+                <td><input type="file" id="g4cto_document" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<!-- ==================== GATE 5 ==================== -->
+<section id="g5-me" class="page hidden">
+    <h2>G5 - ME Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g5me_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5me_comments">Comments:</label></td>
+                <td><input type="text" id="g5me_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5me_fdate">Finished Date:</label></td>
+                <td><input type="date" id="g5me_fdate" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5me_document">Upload Document:</label></td>
+                <td><input type="file" id="g5me_document" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g5-mem" class="page hidden">
+    <h2>G5 - MEM Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g5mem_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comment:</td>
+                <td><input type="text" id="g5mem_me_comment" class="g1-input" readonly></td>
+            </tr>
+            <!-- ME FINISHED DATE (readonly) -->
+            <tr>
+                <td class="g1-label"><label for="g5mem_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g5mem_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g5mem_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5mem_comments">Comments:</label></td>
+                <td><input type="text" id="g5mem_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5mem_document">Upload Document:</label></td>
+                <td><input type="file" id="g5mem_document" class="g1-input"></td>
+            </tr>
+            <!-- REVIEWED DATE -->
+            <tr>
+                <td class="g1-label"><label for="g5mem_rdate">Reviewed Date:</label></td>
+                <td><input type="date" id="g5mem_rdate" class="g1-input" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</section>
+
+<section id="g5-cto" class="page hidden">
+    <h2>G5 - CTO Page</h2>
+    <form>
+        <div class="g1-container">
+            <table class="g1-table">
+            <tr>
+                <td class="g1-label">Part No:</td>
+                <td><input type="text" id="g5cto_partno" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Comments:</td>
+                <td><input type="text" id="g5cto_me_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5cto_me_fdate">ME Finished Date:</label></td>
+                <td><input type="date" id="g5cto_me_fdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">ME Document:</td>
+                <td><a id="g5cto_me_documentLink" class="download-link" href="#" download>Download ME Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Comments:</td>
+                <td><input type="text" id="g5cto_mem_comments" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label">MEM Document:</td>
+                <td><a id="g5cto_mem_documentLink" class="download-link" href="#" download>Download MEM Document</a></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5cto_mem_rdate">MEM Reviewed Date:</label></td>
+                <td><input type="date" id="g5cto_mem_rdate" class="g1-input" readonly></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5cto_comments">CTO Comments:</label></td>
+                <td><input type="text" id="g5cto_comments" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td class="g1-label"><label for="g5cto_document">Upload Document:</label></td>
+                <td><input type="file" id="g5cto_document" class="g1-input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><button type="submit" class="submit-btn">Submit</button></td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section id="remarks" class="page hidden">
+    <h2>History / Remarks</h2>
+    <p>Your remarks and history will appear here.</p>
+</section>
+
+    <script src="../JS/index.js"></script>
+</body>
+</html>

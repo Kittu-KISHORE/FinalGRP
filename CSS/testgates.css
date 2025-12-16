@@ -1,0 +1,101 @@
+/* ================= GATE PAGE ================= */
+
+section[id^="g"] {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f4f6f8;
+  font-family: Arial, sans-serif;
+}
+
+/* Gate title */
+section[id^="g"] h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Table container */
+section[id^="g"] table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Table headers */
+section[id^="g"] th {
+  background: #2c3e50;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: center;
+}
+
+/* Table rows */
+section[id^="g"] td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Zebra striping */
+section[id^="g"] tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Hover effect */
+section[id^="g"] tr:hover {
+  background: #e1f0ff;
+}
+
+/* Status badges */
+.pending {
+  color: #e67e22;
+  font-weight: 600;
+}
+
+.approved {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.rejected {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+/* Approval button */
+section[id^="g"] button {
+  padding: 6px 12px;
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+section[id^="g"] button:hover {
+  background: #1c5980;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  section[id^="g"] table, section[id^="g"] th, section[id^="g"] td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  section[id^="g"] h2 {
+    font-size: 22px;
+  }
+
+  section[id^="g"] button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

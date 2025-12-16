@@ -1,0 +1,239 @@
+
+/* -------------------- GLOBAL -------------------- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f3;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* -------------------- NAVBAR -------------------- */
+.navbar {
+    background: #333;
+    padding: 12px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.navbar button {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.navbar button:hover {
+    background: white;
+    color: black;
+}
+
+/* -------------------- PAGE -------------------- */
+.page {
+    padding: 20px;
+}
+
+/* -------------------- HOME PAGE -------------------- */
+#home {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     background: url('https://img.freepik.com/premium-photo/airplane-engine-airport-jpg_835197-6795.jpg') no-repeat center/cover;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* .popup_table ,.popup_head, .popup_data{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 20px;
+} */
+
+
+/* -------------------- RFORM GRID -------------------- */
+#register h2 {
+    margin-left: 600px;
+}
+ .rform-grid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+ }
+ .rform-grid table{
+    padding: 30px;
+    border-radius: 30px;
+ }
+ .rdata{
+    padding: 5px;
+ }
+
+.rform-grid input {
+    width: 80%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+/* Submit Button */
+.submit-btn {
+    margin-top: 20px;    
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ---------------- POPUP STYLE ---------------- */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: space-evenly;
+    align-items:center;
+    z-index: 999;
+}
+
+.popup-content {
+    background: white;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    /* text-align: center; */
+}
+
+.popupform-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+    max-width: 300px;
+}
+
+.popupform-grid label {
+    margin-bottom: 4px;
+    font-weight: 600;
+    display: block;
+}
+
+.popupform-grid input {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+         
+.submit-btn {
+     margin-top: 15px;
+    padding: 8px 16px;
+}
+       
+
+.submit-btn:hover{
+    border: 1px solid #333  ;
+    background-color: white;
+    color: black;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* -------- Mobile Large / Small Tablets (481px–768px) -------- */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .navbar button {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    #home {
+        font-size: 26px;
+    }
+
+    .rform-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 2 columns */
+    }
+}
+
+/* -------- Tablets (769px–1024px) -------- */
+@media (max-width: 1024px) {
+    .navbar button {
+        font-size: 18px;
+    }
+
+    #home {
+        font-size: 28px;
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* -------- Larger Screens (Desktop) -------- */
+@media (min-width: 1025px) {
+    #home {
+        font-size: 32px;
+    }
+}
+
+
+/* ---------------------------------------------- */
+/* Menu icon (three dots) */
+.menu-icon {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    display: none; /* hidden on desktop */
+}
+
+/* Side menu for mobile */
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: -250px; /* hidden initially */
+        width: 200px;
+        height: 100%;
+        background: #333;
+        flex-direction: column;
+        padding-top: 60px;
+        transition: left 0.3s ease;
+        z-index: 1000;
+    }
+    .nav-links button {
+        width: 90%;
+        margin: 10px auto;
+    }
+}
+/*  */
