@@ -1,29 +1,17 @@
-CREATE DATABASE GateReviewProcesslDB;
+﻿CREATE DATABASE GateReviewProcesslDB;
 GO
-select * from ProjectOwner;
-select * from Gate1;
-
-
-
-USE GateReviewProcesslDB;
-GO
--- Parameters from front-end (example)
-DECLARE @PartNo NVARCHAR(50) = 'P003';
-DECLARE @POComments NVARCHAR(255) = 'project registration';
-DECLARE @TargetDate DATE = '2025-01-2';
-DECLARE @POId INT = 102;  -- ProjectOwner user id
-
--- Insert new record into ProjectOwner table
-INSERT INTO ProjectOwner (PartNo, POComments, TargetDate, POId, Withdrawn)
-VALUES (@PartNo, @POComments, @TargetDate, @POId, 0);
-
-
+select * from GateReviewProcesslDB.dbo.ProjectOwner;
+select * from GateReviewProcesslDB.dbo.Gate1;
+select * from GateReviewProcesslDB.dbo.Gate2;
+select * from GateReviewProcesslDB.dbo.Gate3;
+select * from GateReviewProcesslDB.dbo.Gate4;
+select * from GateReviewProcesslDB.dbo.Gate5;
 
 
 --ME Data Insertion Stored Procedure
 USE GateReviewProcesslDB;
 GO
-CREATE PROCEDURE sp_InsertEDME_Gate1
+CREATE OR ALTER PROCEDURE sp_InsertedME_Gate1
     @ProjectOwnerId INT,           -- Id of the ProjectOwner record
     @MEComments NVARCHAR(255),
     @MEReviewDate DATE,
@@ -38,7 +26,7 @@ BEGIN
     IF EXISTS (SELECT 1 FROM Gate1 WHERE Id = @ProjectOwnerId)
     BEGIN
         -- Update only ME fields
-        UPDATE Gate1
+        UPDATE Gate1    
         SET 
             MEComments       = @MEComments,
             MEReviewDate     = @MEReviewDate,
@@ -70,9 +58,8 @@ BEGIN
 END;
 
 GO
-
 --Execute Stored Procedure for ME data insertion
-EXEC sp_InsertEDME_Gate1
+EXEC sp_InsertedME_Gate1
     @ProjectOwnerId = 2,
     @MEComments = 'All checks done',
     @MEReviewDate = '2025-01-31',
@@ -80,11 +67,56 @@ EXEC sp_InsertEDME_Gate1
     @MEReviewerId = 102,
     @MEStatus = 'Approved';
 
+
+
 --MEM updation Stored Procedure
+
+--USE GateReviewProcesslDB;
+--GO
+--CREATE OR ALTER PROCEDURE sp_UpdateME
+--    @GateNumber INT,  -- 1,2,3,4,5
+--    @ProjectOwnerId INT,
+--    @MEComments NVARCHAR(255),
+--    @MEReviewDate DATE,
+--    @MEDocumentUpload NVARCHAR(255),
+--    @MEReviewerId INT,
+--    @MEStatus NVARCHAR(20)
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
+
+--    DECLARE @sql NVARCHAR(MAX);
+--    SET @sql = N'UPDATE Gate' + CAST(@GateNumber AS NVARCHAR(1)) + '
+--                SET MEComments = @MEComments,
+--                    MEReviewDate = @MEReviewDate,
+--                    MEDocumentUpload = @MEDocumentUpload,
+--                    MEReviewerId = @MEReviewerId,
+--                    MEStatus = @MEStatus,
+--                    StatusDateTime = GETDATE()
+--                WHERE Id = @ProjectOwnerId';
+
+--    EXEC sp_executesql @sql,
+--        N'@MEComments NVARCHAR(255), @MEReviewDate DATE, @MEDocumentUpload NVARCHAR(255), @MEReviewerId INT, @MEStatus NVARCHAR(20), @ProjectOwnerId INT',
+--        @MEComments, @MEReviewDate, @MEDocumentUpload, @MEReviewerId, @MEStatus, @ProjectOwnerId;
+--END;
+--GO
+
+-- Example: Update ME for Gate 1, ProjectOwner with ID 2
+--EXEC sp_UpdateME
+--    @GateNumber = 1,
+--    @ProjectOwnerId = 3,
+--    @MEComments = 'Part reviwed',
+--    @MEReviewDate = '2025-01-31',
+--    @MEDocumentUpload = 'me_doc.pdf',
+--    @MEReviewerId = 103,
+--    @MEStatus = 'Approved';
+
+
+
 USE GateReviewProcesslDB;
 GO    
-CREATE PROCEDURE sp_MEMUpdate_Gate1
-    @ProjectOwnerId INT,           -- Id from ProjectOwner/Gate1
+CREATE OR ALTER PROCEDURE sp_MEMUpdate_Gate1
+    @ProjectOwnerId INT,           
 
    -- @MEComments NVARCHAR(255) = NULL,
    -- @MEReviewDate DATE = NULL,
@@ -134,8 +166,7 @@ EXEC sp_MEMUpdate_Gate1
 -- CT0 Stored Procedure to Update the value 
 USE GateReviewProcesslDB;
 GO    
-
-CREATE PROCEDURE sp_CTOUpdate_Gate1
+CREATE OR ALTER PROCEDURE sp_CTOUpdate_Gate1
     @ProjectOwnerId INT,           -- Id from ProjectOwner/Gate1
 
    
@@ -189,8 +220,7 @@ BEGIN
     WHERE Id = @ProjectOwnerId;
 END;
 GO
-
--- CT) SP Exceution
+-- CTO SP Exceution
 EXEC sp_CTOUpdate_Gate1
     @ProjectOwnerId = 2,          -- ID of the ProjectOwner / Gate1 row
     @CTOComments = 'CTO review completed',
@@ -199,3 +229,81 @@ EXEC sp_CTOUpdate_Gate1
     @CTOReviewerId = 301,
     @CTOStatus = 'Approved';
 
+
+    -------------------------- Register Part -------------------------------------
+USE GateReviewProcesslDB;
+GO
+CREATE OR ALTER PROCEDURE sp_RegisterPart
+    @PartNo NVARCHAR(50),
+    @POComments NVARCHAR(255),
+    @TargetDate DATE,
+    @POId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Insert into ProjectOwner
+        INSERT INTO ProjectOwner (PartNo, POComments, TargetDate, POId, Withdrawn)
+        VALUES (@PartNo, @POComments, @TargetDate, @POId, 0);
+
+        -- Get the newly created ProjectOwner Id
+        DECLARE @NewPOId INT = SCOPE_IDENTITY();
+
+        -- Insert into Gate1
+        INSERT INTO Gate1 (Id, PartNo,MEComments,MEReviewDate,MEDocumentUpload,MEReviewerId, MEStatus,MEMComments,MEMReviewDate,MEMDocumentUpload,MEMReviewerId, MEMStatus,CTOComments,CTOReviewDate,CTODocumentUpload,CTOReviewerId, CTOStatus, StatusDateTime)
+        VALUES (@NewPOId, @PartNo,NULL,NULL,NULL,NULL, 'Pending',NULL,NULL,NULL,NULL, 'Pending', NULL,NULL,NULL,NULL,'Pending', GETDATE());
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@ErrorMessage, 16, 1);
+    END CATCH
+END;
+GO
+
+EXEC sp_RegisterPart
+    @PartNo = 'P005',
+    @POComments = 'Part started',
+    @TargetDate = '2025-01-20',
+    @POId = 101;
+    
+------------------------------- ME update data ------------------------------------
+
+USE GateReviewProcesslDB;
+GO
+
+CREATE OR ALTER PROCEDURE sp_Update_ME_Gate1
+    @ProjectOwnerId INT,
+    @MEComments NVARCHAR(255),
+    @MEReviewDate DATE,
+    @MEDocumentUpload NVARCHAR(255),
+    @MEReviewerId INT,
+    @MEStatus NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Gate1
+    SET
+        MEComments       = @MEComments,
+        MEReviewDate     = @MEReviewDate,
+        MEDocumentUpload = @MEDocumentUpload,
+        MEReviewerId     = @MEReviewerId,
+        MEStatus         = @MEStatus,
+        StatusDateTime   = GETDATE()
+    WHERE Id = @ProjectOwnerId;
+END;
+GO
+
+EXEC sp_Update_ME_Gate1
+    @ProjectOwnerId = 7,
+    @MEComments = 'ME checks completed',
+    @MEReviewDate = '2025-01-31',
+    @MEDocumentUpload = 'me_doc.pdf',
+    @MEReviewerId = 102,
+    @MEStatus = 'Approved';
