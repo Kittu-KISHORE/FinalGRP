@@ -1,4 +1,4 @@
-﻿CREATE DATABASE GateReviewProcesslDB;
+CREATE DATABASE GateReviewProcesslDB;
 GO
 select * from GateReviewProcesslDB.dbo.ProjectOwner;
 select * from GateReviewProcesslDB.dbo.Gate1;
@@ -7,56 +7,12 @@ select * from GateReviewProcesslDB.dbo.Gate3;
 select * from GateReviewProcesslDB.dbo.Gate4;
 select * from GateReviewProcesslDB.dbo.Gate5;
 
-
-
-------------------------------- Register Part -------------------------------------
-
-GO
-CREATE OR ALTER PROCEDURE sp_RegisterPart
-    @PartNo NVARCHAR(50),
-    @POComments NVARCHAR(255),
-    @TargetDate DATE,
-    @POId INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Insert into ProjectOwner
-        INSERT INTO GateReviewProcesslDB.dbo.ProjectOwner (PartNo, POComments, TargetDate, POId, Withdrawn)
-        VALUES (@PartNo, @POComments, @TargetDate, @POId, 0);
-
-        -- Get the newly created ProjectOwner Id
-        DECLARE @NewPOId INT = SCOPE_IDENTITY();
-
-        -- Insert into Gate1
-        INSERT INTO GateReviewProcesslDB.dbo.Gate1 (Id, PartNo,MEComments,MEReviewDate,MEDocumentUpload,MEReviewerId, MEStatus,MEMComments,MEMReviewDate,MEMDocumentUpload,MEMReviewerId, MEMStatus,
-                                                    CTOComments,CTOReviewDate,CTODocumentUpload,CTOReviewerId, CTOStatus, StatusDateTime)
-        VALUES (@NewPOId, @PartNo,NULL,NULL,NULL,NULL, 'Pending',NULL,NULL,NULL,NULL, 'Pending', NULL,NULL,NULL,NULL,'Pending', GETDATE());
-
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
-        THROW;
-    END CATCH
-END;
-GO
-
-EXEC sp_RegisterPart
-    @PartNo = 'P009',
-    @POComments = 'New Test Part',
-    @TargetDate = '2025-12-25',
-    @POId = 101;
     
 ------------------------------- ME update SP ----------------------------------------
 
-
+USE GateReviewProcesslDB;
 GO
-CREATE OR ALTER PROCEDURE sp_Update_ME_Gate1
+CREATE OR ALTER PROCEDURE sp_Update_ME_Gate2
     @ProjectOwnerId INT,
     @MEComments NVARCHAR(255),
     @MEReviewDate DATE,
@@ -67,7 +23,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    UPDATE Gate1
+    UPDATE GateReviewProcesslDB.dbo.Gate2
     SET
         MEComments       = @MEComments,
         MEReviewDate     = @MEReviewDate,
@@ -78,11 +34,11 @@ BEGIN
     WHERE Id = @ProjectOwnerId;
 END;
 GO
-
-EXEC sp_Update_ME_Gate1
-    @ProjectOwnerId = 1004,
-    @MEComments = 'recheck ',
-    @MEReviewDate = '2025-01-31',
+USE GateReviewProcesslDB;
+EXEC sp_Update_ME_Gate2
+    @ProjectOwnerId = 1,
+    @MEComments = 'me check ',
+    @MEReviewDate = '2026-02-10',
     @MEDocumentUpload = 'me_doc.pdf',
     @MEReviewerId = 102,
     @MEStatus = 'Approved';
@@ -93,9 +49,8 @@ EXEC sp_Update_ME_Gate1
     
 USE GateReviewProcesslDB;
 GO    
-CREATE OR ALTER PROCEDURE sp_MEMUpdate_Gate1
+CREATE OR ALTER PROCEDURE sp_MEMUpdate_Gate2
     @ProjectOwnerId INT,        
-
     @MEMComments NVARCHAR(255),
     @MEMReviewDate DATE,
     @MEMDocumentUpload NVARCHAR(255) = NULL,
@@ -105,7 +60,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    UPDATE Gate1
+    UPDATE Gate2
     SET
        
         MEMComments      = @MEMComments,
@@ -119,7 +74,7 @@ BEGIN
 END;
 GO
 --MEM SP Execution 
-EXEC sp_MEMUpdate_Gate1
+EXEC sp_MEMUpdate_Gate2
     @ProjectOwnerId = 7,                
     @MEMComments = 'MEM check',       
     @MEMReviewDate = '2025-02-01',     
@@ -128,12 +83,10 @@ EXEC sp_MEMUpdate_Gate1
     @MEMStatus = 'Rejected';            
 
 
-
-
 --------------------------------- CTO Update data --------------------------------------
 USE GateReviewProcesslDB;
 GO
-CREATE OR ALTER PROCEDURE sp_CTOUpdate_Gate1_NextGate
+CREATE OR ALTER PROCEDURE sp_CTOUpdate_Gate2_NextGate
     @ProjectOwnerId INT,           -- Id from ProjectOwner/Gate1
     @CTOComments NVARCHAR(255),
     @CTOReviewDate DATE,
@@ -147,8 +100,8 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        -- Update CTO info in Gate1
-        UPDATE Gate1
+        -- Update CTO info in Gate2
+        UPDATE Gate2
         SET
             CTOComments       = @CTOComments,
             CTOReviewDate     = @CTOReviewDate,
@@ -158,10 +111,10 @@ BEGIN
             StatusDateTime    = GETDATE()
         WHERE Id = @ProjectOwnerId;
 
-        -- If CTO approved, insert default row in next gate (Gate2)
+        -- If CTO approved, insert default row in next gate (Gate3)
         IF @CTOStatus = 'Approved'
         BEGIN
-            INSERT INTO Gate2 (
+            INSERT INTO Gate3 (
                 Id, PartNo,
                 MEComments, MEReviewDate, MEDocumentUpload, MEReviewerId, MEStatus,
                 MEMComments, MEMReviewDate, MEMDocumentUpload, MEMReviewerId, MEMStatus,
@@ -172,7 +125,7 @@ BEGIN
                 NULL, NULL, NULL, NULL, 'Pending',
                 NULL, NULL, NULL, NULL, 'Pending',
                 NULL, NULL, NULL, NULL, 'Pending', GETDATE()
-            FROM Gate1
+            FROM Gate2
             WHERE Id = @ProjectOwnerId;
         END
 
@@ -185,7 +138,7 @@ BEGIN
 END;
 GO
 
-EXEC sp_CTOUpdate_Gate1_NextGate
+EXEC sp_CTOUpdate_Gate2_NextGate
     @ProjectOwnerId = 1,
     @CTOComments = 'CTO Final Approval',
     @CTOReviewDate = '2026-1-25',
